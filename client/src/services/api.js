@@ -1,6 +1,4 @@
-const BASE = import.meta.env.PROD
-  ? 'https://ai-slop-detector-api.onrender.com/api'
-  : '/api'
+const BASE = '/api'
 
 async function post(path, body, isForm = false) {
   const res = await fetch(`${BASE}${path}`, {
@@ -10,7 +8,17 @@ async function post(path, body, isForm = false) {
       body: JSON.stringify(body),
     }),
   })
-  const data = await res.json()
+
+  const text = await res.text()
+
+  let data
+  try {
+    data = JSON.parse(text)
+  } catch {
+    console.error('Non-JSON response:', text.slice(0, 200))
+    throw new Error('Server returned an unexpected response. Check if backend is online.')
+  }
+
   if (!res.ok) throw new Error(data.error || 'Analysis failed')
   return data
 }
