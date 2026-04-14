@@ -1,7 +1,3 @@
-// Wake up Render on app load
-useEffect(() => {
-  fetch('https://ai-slop-detector-api.onrender.com/health').catch(() => {})
-}, [])
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -13,7 +9,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// ← Fix: allow ALL origins (needed for Vercel → Render)
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST'],

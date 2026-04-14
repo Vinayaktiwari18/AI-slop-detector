@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from './components/Layout/Header'
 import Footer from './components/Layout/Footer'
 import Particles from './components/Particles'
@@ -24,6 +24,11 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  // Wake up Render backend on app load
+  useEffect(() => {
+    fetch('https://ai-slop-detector-api.onrender.com/health').catch(() => {})
+  }, [])
+
   const handleResult = (data) => { setResult(data); setError(null) }
   const handleError = (msg) => { if (msg) { setError(msg); setResult(null) } else setError(null) }
   const handleTab = (id) => { setTab(id); setResult(null); setError(null) }
@@ -36,8 +41,6 @@ export default function App() {
       <div className="app">
         <Header />
         <main className="main">
-
-          {/* LEFT — INPUT */}
           <div className="left-panel">
             <div>
               <div style={{ fontSize: '10px', letterSpacing: '3px', color: 'var(--text-secondary)', marginBottom: '12px' }}>
@@ -79,7 +82,6 @@ export default function App() {
             )}
           </div>
 
-          {/* RIGHT — RESULTS */}
           <div className="right-panel">
             {loading && (
               <div className="scanning-overlay">
@@ -109,7 +111,6 @@ export default function App() {
               </div>
             )}
           </div>
-
         </main>
         <Footer />
       </div>
