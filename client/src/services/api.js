@@ -1,5 +1,5 @@
 const BASE = import.meta.env.PROD
-  ? 'https://ai-slop-detector-api.onrender.com/api'  // ← your Render URL
+  ? 'https://ai-slop-detector-api.onrender.com/api'
   : '/api'
 
 async function post(path, body, isForm = false) {
