@@ -1,0 +1,30 @@
+:root {
+  --bg:           #050505;
+  --bg-surface:   #0d0d0d;
+  --bg-elevated:  #111111;
+  --border:       #1c1c1c;
+  --border-glow:  #00ff8855;
+
+  --green:        #00ff88;
+  --green-dim:    #00ff8822;
+  --red:          #f43f5e;
+  --red-dim:      #f43f5e22;
+  --yellow:       #facc15;
+  --yellow-dim:   #facc1522;
+  --orange:       #fb923c;
+  --orange-dim:   #fb923c22;
+
+  --text:         #e2e2e2;
+  --text-secondary: #555;
+  --text-muted:   #2a2a2a;
+
+  --font-mono:    'Space Mono', monospace;
+  --font-display: 'Bebas Neue', cursive;
+
+  --glow-green: 0 0 15px #00ff8850, 0 0 40px #00ff8820;
+  --glow-red:   0 0 15px #f43f5e50, 0 0 40px #f43f5e20;
+  --glow-yellow:0 0 15px #facc1550, 0 0 40px #facc1520;
+
+  --radius: 4px;
+  --transition: 0.2s ease;
+}
