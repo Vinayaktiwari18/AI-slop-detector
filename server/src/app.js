@@ -1,3 +1,7 @@
+// Wake up Render on app load
+useEffect(() => {
+  fetch('https://ai-slop-detector-api.onrender.com/health').catch(() => {})
+}, [])
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
