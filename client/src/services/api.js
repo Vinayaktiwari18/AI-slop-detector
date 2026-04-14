@@ -1,4 +1,4 @@
-const BASE = '/api'
+const BASE = import.meta.env.VITE_API_URL || '/api'
 
 async function post(path, body, isForm = false) {
   const res = await fetch(`${BASE}${path}`, {
@@ -8,14 +8,13 @@ async function post(path, body, isForm = false) {
       : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
     ),
   })
-
   const text = await res.text()
   try {
     const data = JSON.parse(text)
     if (!res.ok) throw new Error(data.error || 'Analysis failed')
     return data
   } catch {
-    throw new Error('Backend offline or unreachable. Try again in 30 seconds.')
+    throw new Error('Backend offline. Wait 30 seconds and try again.')
   }
 }
 
