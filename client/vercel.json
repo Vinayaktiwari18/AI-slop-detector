@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://ai-slop-detector-api.onrender.com/api/:path*"
+      "source": "/api/(.*)",
+      "destination": "https://ai-slop-detector-api.onrender.com/api/$1"
     }
   ]
 }

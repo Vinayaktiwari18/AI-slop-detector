@@ -3,24 +3,20 @@ const BASE = '/api'
 async function post(path, body, isForm = false) {
   const res = await fetch(`${BASE}${path}`, {
     method: 'POST',
-    ...(isForm ? { body } : {
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    }),
+    ...(isForm
+      ? { body }
+      : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+    ),
   })
 
   const text = await res.text()
-
-  let data
   try {
-    data = JSON.parse(text)
+    const data = JSON.parse(text)
+    if (!res.ok) throw new Error(data.error || 'Analysis failed')
+    return data
   } catch {
-    console.error('Non-JSON response:', text.slice(0, 200))
-    throw new Error('Server returned an unexpected response. Check if backend is online.')
+    throw new Error('Backend offline or unreachable. Try again in 30 seconds.')
   }
-
-  if (!res.ok) throw new Error(data.error || 'Analysis failed')
-  return data
 }
 
 export const analyzeText = (text) => post('/analyze', { text })
