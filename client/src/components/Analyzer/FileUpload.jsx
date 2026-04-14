@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { analyzeFile } from '../../services/api'
 import { useFileReader } from '../../hooks/useFileReader'
 import { formatBytes } from '../../utils/formatters'
 import Button from '../ui/Button'
@@ -12,11 +13,7 @@ export default function FileUpload({ onResult, onError, setLoading, loading }) {
     setLoading(true)
     onError(null)
     try {
-      const form = new FormData()
-      form.append('file', file)
-      const res = await fetch('/api/analyze', { method: 'POST', body: form })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
+      const data = await analyzeFile(file)
       onResult(data)
     } catch (e) {
       onError(e.message)
@@ -38,11 +35,7 @@ export default function FileUpload({ onResult, onError, setLoading, loading }) {
         <div className="file-drop-icon">📄</div>
         <div className="file-drop-text">DROP FILE OR CLICK TO BROWSE</div>
         <div className="file-drop-hint">.TXT or .PDF · MAX 5MB</div>
-        {file && (
-          <div className="file-name">
-            ✓ {file.name} ({formatBytes(file.size)})
-          </div>
-        )}
+        {file && <div className="file-name">✓ {file.name} ({formatBytes(file.size)})</div>}
         <input ref={inputRef} type="file" accept=".txt,.pdf" style={{ display: 'none' }} onChange={onFileChange} />
       </div>
       {file && (
@@ -50,7 +43,7 @@ export default function FileUpload({ onResult, onError, setLoading, loading }) {
           <Button variant="primary" full onClick={submit} disabled={loading}>
             {loading ? 'SCANNING...' : '▶ ANALYZE FILE'}
           </Button>
-          <Button onClick={clear} style={{ flexShrink: 0 }}>✕</Button>
+          <Button onClick={clear}>✕</Button>
         </div>
       )}
     </div>

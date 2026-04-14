@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { analyzeText } from '../../services/api'
 import Button from '../ui/Button'
 
 export default function TextInput({ onResult, onError, setLoading, loading }) {
@@ -9,13 +10,7 @@ export default function TextInput({ onResult, onError, setLoading, loading }) {
     setLoading(true)
     onError(null)
     try {
-      const res = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
+      const data = await analyzeText(text)
       onResult(data)
     } catch (e) {
       onError(e.message)

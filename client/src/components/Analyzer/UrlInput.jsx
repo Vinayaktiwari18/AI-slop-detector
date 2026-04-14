@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { analyzeUrl } from '../../services/api'
 import Button from '../ui/Button'
 
 export default function UrlInput({ onResult, onError, setLoading, loading }) {
@@ -9,13 +10,7 @@ export default function UrlInput({ onResult, onError, setLoading, loading }) {
     setLoading(true)
     onError(null)
     try {
-      const res = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
+      const data = await analyzeUrl(url)
       onResult(data)
     } catch (e) {
       onError(e.message)
